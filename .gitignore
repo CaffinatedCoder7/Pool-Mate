@@ -1,0 +1,33 @@
+# Dependencies — reinstalled from package-lock.json, never committed
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Local caches
+.vite/
+*.tsbuildinfo
+
+# Local backup copies made before risky edits (see CLAUDE.md)
+backups/
+
+# Local environment — .env.example is committed, real values are not
+.env
+.env.local
+.env.*.local
+
+# Editor / OS noise
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Upload bundles
+poolmate-upload*.zip

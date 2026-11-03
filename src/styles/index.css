@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * PoolMate colour tokens (RGB channels so Tailwind opacity modifiers work).
+ * Strictly neutral: white, off-white, greys, charcoal, near-black.
+ */
+@layer base {
+  :root {
+    --pm-canvas: 250 250 249; /* #FAFAF9 off-white app background */
+    --pm-surface: 255 255 255; /* #FFFFFF cards, panels */
+    --pm-surface-muted: 245 245 244; /* #F5F5F4 hover, subtle fills */
+    --pm-surface-sunken: 234 234 232; /* #EAEAE8 map placeholder, wells */
+    --pm-surface-inverse: 17 17 17; /* #111111 inverse surfaces */
+
+    --pm-line: 231 231 229; /* #E7E7E5 default border */
+    --pm-line-strong: 212 212 209; /* #D4D4D1 inputs, emphasis */
+
+    --pm-ink: 17 17 17; /* #111111 primary text */
+    --pm-ink-secondary: 94 94 92; /* #5E5E5C body / supporting */
+    --pm-ink-tertiary: 115 115 113; /* #737371 captions, placeholders */
+    --pm-ink-disabled: 168 168 164; /* #A8A8A4 */
+    --pm-ink-inverse: 255 255 255;
+
+    --pm-primary: 17 17 17;
+    --pm-primary-hover: 42 42 42;
+    --pm-primary-foreground: 255 255 255;
+
+    --pm-backdrop: 10 10 10;
+
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * One scrolling owner. The document is a fixed-height frame and the app's
+   * main region is the single vertical scroll container, so there is never a
+   * second document-level scrollbar.
+   *
+   * Percentage heights rather than 100dvh on purpose: `dvh` resolves to the
+   * largest viewport, so a 100dvh shell is taller than the visible area while
+   * mobile browser chrome is showing, which makes the page scroll behind the
+   * shell. `height: 100%` always matches the current viewport.
+   */
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-body text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    /* The frame itself does not scroll; its inner scroll container does. */
+    overflow: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgb(var(--pm-ink-tertiary));
+    opacity: 1;
+  }
+
+  ::selection {
+    @apply bg-ink text-ink-inverse;
+  }
+
+  /* One consistent, high-contrast focus ring for keyboard users. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ink ring-offset-2 ring-offset-surface;
+  }
+
+  /* Respect reduced-motion preferences globally. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only rounded bg-primary px-4 py-2 text-body-sm font-medium text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100];
+  }
+
+  /* Native <dialog>: bottom sheet on mobile, centred modal from sm up. */
+  .pm-dialog {
+    @apply m-0 mt-auto w-full max-w-none rounded-t-sheet border border-line bg-surface p-0 text-ink shadow-lg;
+    max-height: calc(100dvh - 2rem);
+  }
+
+  .pm-dialog::backdrop {
+    background: rgb(var(--pm-backdrop) / 0.4);
+  }
+
+  @media (min-width: 640px) {
+    .pm-dialog {
+      @apply m-auto rounded-xl;
+      max-height: calc(100dvh - 4rem);
+    }
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

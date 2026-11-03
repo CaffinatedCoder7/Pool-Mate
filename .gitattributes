@@ -1,0 +1,15 @@
+# Normalise line endings in the repo so clones on macOS/Linux don't show
+# every file as modified. Working copies on Windows still get CRLF.
+* text=auto eol=lf
+
+# Binary assets — never touch these.
+*.docx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+*.zip binary
